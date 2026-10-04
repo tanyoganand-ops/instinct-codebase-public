@@ -1,0 +1,456 @@
+# Pallo concept saved frame plan
+
+450 states saved before render; full bounds/transforms in frames-pallo-v1.json and text audit in 450-text-audit.json. Safe clipped essentials x48-888/y288-1248.
+
+|Frame|Time|Beat|Text overlaps|
+|---|---|---|---|
+|0|0.000|Workings hook|0|
+|1|0.033|Workings hook|0|
+|2|0.067|Workings hook|0|
+|3|0.100|Workings hook|0|
+|4|0.133|Workings hook|0|
+|5|0.167|Workings hook|0|
+|6|0.200|Workings hook|0|
+|7|0.233|Workings hook|0|
+|8|0.267|Workings hook|0|
+|9|0.300|Workings hook|0|
+|10|0.333|Workings hook|0|
+|11|0.367|Workings hook|0|
+|12|0.400|Workings hook|0|
+|13|0.433|Workings hook|0|
+|14|0.467|Workings hook|0|
+|15|0.500|Workings hook|0|
+|16|0.533|Workings hook|0|
+|17|0.567|Workings hook|0|
+|18|0.600|Workings hook|0|
+|19|0.633|Workings hook|0|
+|20|0.667|Workings hook|0|
+|21|0.700|Workings hook|0|
+|22|0.733|Workings hook|0|
+|23|0.767|Workings hook|0|
+|24|0.800|Workings hook|0|
+|25|0.833|Workings hook|0|
+|26|0.867|Workings hook|0|
+|27|0.900|Workings hook|0|
+|28|0.933|Workings hook|0|
+|29|0.967|Workings hook|0|
+|30|1.000|Workings hook|0|
+|31|1.033|Workings hook|0|
+|32|1.067|Workings hook|0|
+|33|1.100|Workings hook|0|
+|34|1.133|Workings hook|0|
+|35|1.167|Workings hook|0|
+|36|1.200|Workings hook|0|
+|37|1.233|Workings hook|0|
+|38|1.267|Workings hook|0|
+|39|1.300|Workings hook|0|
+|40|1.333|Workings hook|0|
+|41|1.367|Workings hook|0|
+|42|1.400|Workings hook|0|
+|43|1.433|Workings hook|0|
+|44|1.467|Workings hook|0|
+|45|1.500|Workings hook|0|
+|46|1.533|Workings hook|0|
+|47|1.567|Workings hook|0|
+|48|1.600|Workings hook|0|
+|49|1.633|Workings hook|0|
+|50|1.667|Workings hook|0|
+|51|1.700|Workings hook|0|
+|52|1.733|Workings hook|0|
+|53|1.767|Workings hook|0|
+|54|1.800|Workings hook|0|
+|55|1.833|Workings hook|0|
+|56|1.867|Workings hook|0|
+|57|1.900|Workings hook|0|
+|58|1.933|Workings hook|0|
+|59|1.967|Workings hook|0|
+|60|2.000|Workings hook|0|
+|61|2.033|Workings hook|0|
+|62|2.067|Workings hook|0|
+|63|2.100|Workings hook|0|
+|64|2.133|Workings hook|0|
+|65|2.167|Workings hook|0|
+|66|2.200|Workings hook|0|
+|67|2.233|Workings hook|0|
+|68|2.267|Workings hook|0|
+|69|2.300|Workings hook|0|
+|70|2.333|Workings hook|0|
+|71|2.367|Workings hook|0|
+|72|2.400|Workings hook|0|
+|73|2.433|Workings hook|0|
+|74|2.467|Workings hook|0|
+|75|2.500|Workings hook|0|
+|76|2.533|Workings hook|0|
+|77|2.567|Workings hook|0|
+|78|2.600|Workings hook|0|
+|79|2.633|Workings hook|0|
+|80|2.667|Workings hook|0|
+|81|2.700|Workings hook|0|
+|82|2.733|Workings hook|0|
+|83|2.767|Workings hook|0|
+|84|2.800|Workings hook|0|
+|85|2.833|Workings hook|0|
+|86|2.867|Workings hook|0|
+|87|2.900|Workings hook|0|
+|88|2.933|Workings hook|0|
+|89|2.967|Workings hook|0|
+|90|3.000|Workings hook|0|
+|91|3.033|Workings hook|0|
+|92|3.067|Workings hook|0|
+|93|3.100|Workings hook|0|
+|94|3.133|Workings hook|0|
+|95|3.167|Workings hook|0|
+|96|3.200|Workings hook|0|
+|97|3.233|Workings hook|0|
+|98|3.267|Workings hook|0|
+|99|3.300|Workings hook|0|
+|100|3.333|Workings hook|0|
+|101|3.367|Workings hook|0|
+|102|3.400|Workings hook|0|
+|103|3.433|Workings hook|0|
+|104|3.467|Workings hook|0|
+|105|3.500|Workings hook|0|
+|106|3.533|Workings hook|0|
+|107|3.567|Workings hook|0|
+|108|3.600|Workings hook|0|
+|109|3.633|Workings hook|0|
+|110|3.667|Workings hook|0|
+|111|3.700|Workings hook|0|
+|112|3.733|Workings hook|0|
+|113|3.767|Workings hook|0|
+|114|3.800|Workings hook|0|
+|115|3.833|Workings hook|0|
+|116|3.867|Workings hook|0|
+|117|3.900|Workings hook|0|
+|118|3.933|Workings hook|0|
+|119|3.967|Workings hook|0|
+|120|4.000|Workings hook|0|
+|121|4.033|Workings hook|0|
+|122|4.067|Workings hook|0|
+|123|4.100|Workings hook|0|
+|124|4.133|Workings hook|0|
+|125|4.167|Workings hook|0|
+|126|4.200|Workings hook|0|
+|127|4.233|Workings hook|0|
+|128|4.267|Workings hook|0|
+|129|4.300|Workings hook|0|
+|130|4.333|Workings hook|0|
+|131|4.367|Workings hook|0|
+|132|4.400|Workings hook|0|
+|133|4.433|Workings hook|0|
+|134|4.467|Workings hook|0|
+|135|4.500|Workings hook|0|
+|136|4.533|Workings hook|0|
+|137|4.567|Workings hook|0|
+|138|4.600|Workings hook|0|
+|139|4.633|Workings hook|0|
+|140|4.667|Workings hook|0|
+|141|4.700|Find the step|0|
+|142|4.733|Find the step|0|
+|143|4.767|Find the step|0|
+|144|4.800|Find the step|0|
+|145|4.833|Find the step|0|
+|146|4.867|Find the step|0|
+|147|4.900|Find the step|0|
+|148|4.933|Find the step|0|
+|149|4.967|Find the step|0|
+|150|5.000|Find the step|0|
+|151|5.033|Find the step|0|
+|152|5.067|Find the step|0|
+|153|5.100|Find the step|0|
+|154|5.133|Find the step|0|
+|155|5.167|Find the step|0|
+|156|5.200|Find the step|0|
+|157|5.233|Find the step|0|
+|158|5.267|Find the step|0|
+|159|5.300|Find the step|0|
+|160|5.333|Find the step|0|
+|161|5.367|Find the step|0|
+|162|5.400|Find the step|0|
+|163|5.433|Find the step|0|
+|164|5.467|Find the step|0|
+|165|5.500|Find the step|0|
+|166|5.533|Find the step|0|
+|167|5.567|Find the step|0|
+|168|5.600|Find the step|0|
+|169|5.633|Find the step|0|
+|170|5.667|Find the step|0|
+|171|5.700|Find the step|0|
+|172|5.733|Find the step|0|
+|173|5.767|Find the step|0|
+|174|5.800|Find the step|0|
+|175|5.833|Find the step|0|
+|176|5.867|Find the step|0|
+|177|5.900|Find the step|0|
+|178|5.933|Find the step|0|
+|179|5.967|Find the step|0|
+|180|6.000|Find the step|0|
+|181|6.033|Find the step|0|
+|182|6.067|Find the step|0|
+|183|6.100|Find the step|0|
+|184|6.133|Find the step|0|
+|185|6.167|Find the step|0|
+|186|6.200|Find the step|0|
+|187|6.233|Find the step|0|
+|188|6.267|Find the step|0|
+|189|6.300|Find the step|0|
+|190|6.333|Find the step|0|
+|191|6.367|Find the step|0|
+|192|6.400|Find the step|0|
+|193|6.433|Find the step|0|
+|194|6.467|Find the step|0|
+|195|6.500|Find the step|0|
+|196|6.533|Find the step|0|
+|197|6.567|Find the step|0|
+|198|6.600|Find the step|0|
+|199|6.633|Find the step|0|
+|200|6.667|Find the step|0|
+|201|6.700|Find the step|0|
+|202|6.733|Find the step|0|
+|203|6.767|Find the step|0|
+|204|6.800|Find the step|0|
+|205|6.833|Find the step|0|
+|206|6.867|Find the step|0|
+|207|6.900|Find the step|0|
+|208|6.933|Find the step|0|
+|209|6.967|Find the step|0|
+|210|7.000|Find the step|0|
+|211|7.033|Find the step|0|
+|212|7.067|Find the step|0|
+|213|7.100|Find the step|0|
+|214|7.133|Find the step|0|
+|215|7.167|Find the step|0|
+|216|7.200|Find the step|0|
+|217|7.233|Find the step|0|
+|218|7.267|Find the step|0|
+|219|7.300|Find the step|0|
+|220|7.333|Find the step|0|
+|221|7.367|Find the step|0|
+|222|7.400|Find the step|0|
+|223|7.433|Find the step|0|
+|224|7.467|Find the step|0|
+|225|7.500|Find the step|0|
+|226|7.533|Find the step|0|
+|227|7.567|Find the step|0|
+|228|7.600|Find the step|0|
+|229|7.633|Find the step|0|
+|230|7.667|Find the step|0|
+|231|7.700|Find the step|0|
+|232|7.733|Find the step|0|
+|233|7.767|Find the step|0|
+|234|7.800|Find the step|0|
+|235|7.833|Find the step|0|
+|236|7.867|Find the step|0|
+|237|7.900|Find the step|0|
+|238|7.933|Find the step|0|
+|239|7.967|Find the step|0|
+|240|8.000|Find the step|0|
+|241|8.033|Find the step|0|
+|242|8.067|Find the step|0|
+|243|8.100|Find the step|0|
+|244|8.133|Find the step|0|
+|245|8.167|Find the step|0|
+|246|8.200|Find the step|0|
+|247|8.233|Find the step|0|
+|248|8.267|Find the step|0|
+|249|8.300|Find the step|0|
+|250|8.333|Find the step|0|
+|251|8.367|Find the step|0|
+|252|8.400|Find the step|0|
+|253|8.433|Find the step|0|
+|254|8.467|Find the step|0|
+|255|8.500|Find the step|0|
+|256|8.533|Find the step|0|
+|257|8.567|Find the step|0|
+|258|8.600|Find the step|0|
+|259|8.633|Find the step|0|
+|260|8.667|Find the step|0|
+|261|8.700|Find the step|0|
+|262|8.733|Find the step|0|
+|263|8.767|Find the step|0|
+|264|8.800|Find the step|0|
+|265|8.833|Find the step|0|
+|266|8.867|Find the step|0|
+|267|8.900|Find the step|0|
+|268|8.933|Find the step|0|
+|269|8.967|Find the step|0|
+|270|9.000|Find the step|0|
+|271|9.033|Find the step|0|
+|272|9.067|Find the step|0|
+|273|9.100|Find the step|0|
+|274|9.133|Find the step|0|
+|275|9.167|Find the step|0|
+|276|9.200|Find the step|0|
+|277|9.233|Find the step|0|
+|278|9.267|Find the step|0|
+|279|9.300|Find the step|0|
+|280|9.333|Find the step|0|
+|281|9.367|Find the step|0|
+|282|9.400|Find the step|0|
+|283|9.433|Find the step|0|
+|284|9.467|Find the step|0|
+|285|9.500|Find the step|0|
+|286|9.533|Find the step|0|
+|287|9.567|Find the step|0|
+|288|9.600|Find the step|0|
+|289|9.633|Find the step|0|
+|290|9.667|Find the step|0|
+|291|9.700|Find the step|0|
+|292|9.733|Find the step|0|
+|293|9.767|Find the step|0|
+|294|9.800|Find the step|0|
+|295|9.833|Find the step|0|
+|296|9.867|Find the step|0|
+|297|9.900|Find the step|0|
+|298|9.933|Find the step|0|
+|299|9.967|Find the step|0|
+|300|10.000|Find the step|0|
+|301|10.033|Find the step|0|
+|302|10.067|Find the step|0|
+|303|10.100|Explore Pallo|0|
+|304|10.133|Explore Pallo|0|
+|305|10.167|Explore Pallo|0|
+|306|10.200|Explore Pallo|0|
+|307|10.233|Explore Pallo|0|
+|308|10.267|Explore Pallo|0|
+|309|10.300|Explore Pallo|0|
+|310|10.333|Explore Pallo|0|
+|311|10.367|Explore Pallo|0|
+|312|10.400|Explore Pallo|0|
+|313|10.433|Explore Pallo|0|
+|314|10.467|Explore Pallo|0|
+|315|10.500|Explore Pallo|0|
+|316|10.533|Explore Pallo|0|
+|317|10.567|Explore Pallo|0|
+|318|10.600|Explore Pallo|0|
+|319|10.633|Explore Pallo|0|
+|320|10.667|Explore Pallo|0|
+|321|10.700|Explore Pallo|0|
+|322|10.733|Explore Pallo|0|
+|323|10.767|Explore Pallo|0|
+|324|10.800|Explore Pallo|0|
+|325|10.833|Explore Pallo|0|
+|326|10.867|Explore Pallo|0|
+|327|10.900|Explore Pallo|0|
+|328|10.933|Explore Pallo|0|
+|329|10.967|Explore Pallo|0|
+|330|11.000|Explore Pallo|0|
+|331|11.033|Explore Pallo|0|
+|332|11.067|Explore Pallo|0|
+|333|11.100|Explore Pallo|0|
+|334|11.133|Explore Pallo|0|
+|335|11.167|Explore Pallo|0|
+|336|11.200|Explore Pallo|0|
+|337|11.233|Explore Pallo|0|
+|338|11.267|Explore Pallo|0|
+|339|11.300|Explore Pallo|0|
+|340|11.333|Explore Pallo|0|
+|341|11.367|Explore Pallo|0|
+|342|11.400|Explore Pallo|0|
+|343|11.433|Explore Pallo|0|
+|344|11.467|Explore Pallo|0|
+|345|11.500|Explore Pallo|0|
+|346|11.533|Explore Pallo|0|
+|347|11.567|Explore Pallo|0|
+|348|11.600|Explore Pallo|0|
+|349|11.633|Explore Pallo|0|
+|350|11.667|Explore Pallo|0|
+|351|11.700|Explore Pallo|0|
+|352|11.733|Explore Pallo|0|
+|353|11.767|Explore Pallo|0|
+|354|11.800|Explore Pallo|0|
+|355|11.833|Explore Pallo|0|
+|356|11.867|Explore Pallo|0|
+|357|11.900|Explore Pallo|0|
+|358|11.933|Explore Pallo|0|
+|359|11.967|Explore Pallo|0|
+|360|12.000|Explore Pallo|0|
+|361|12.033|Explore Pallo|0|
+|362|12.067|Explore Pallo|0|
+|363|12.100|Explore Pallo|0|
+|364|12.133|Explore Pallo|0|
+|365|12.167|Explore Pallo|0|
+|366|12.200|Explore Pallo|0|
+|367|12.233|Explore Pallo|0|
+|368|12.267|Explore Pallo|0|
+|369|12.300|Explore Pallo|0|
+|370|12.333|Explore Pallo|0|
+|371|12.367|Explore Pallo|0|
+|372|12.400|Explore Pallo|0|
+|373|12.433|Explore Pallo|0|
+|374|12.467|Explore Pallo|0|
+|375|12.500|Explore Pallo|0|
+|376|12.533|Explore Pallo|0|
+|377|12.567|Explore Pallo|0|
+|378|12.600|Explore Pallo|0|
+|379|12.633|Explore Pallo|0|
+|380|12.667|Explore Pallo|0|
+|381|12.700|Explore Pallo|0|
+|382|12.733|Explore Pallo|0|
+|383|12.767|Explore Pallo|0|
+|384|12.800|Explore Pallo|0|
+|385|12.833|Explore Pallo|0|
+|386|12.867|Explore Pallo|0|
+|387|12.900|Explore Pallo|0|
+|388|12.933|Explore Pallo|0|
+|389|12.967|Explore Pallo|0|
+|390|13.000|Explore Pallo|0|
+|391|13.033|Explore Pallo|0|
+|392|13.067|Explore Pallo|0|
+|393|13.100|Explore Pallo|0|
+|394|13.133|Explore Pallo|0|
+|395|13.167|Explore Pallo|0|
+|396|13.200|Explore Pallo|0|
+|397|13.233|Explore Pallo|0|
+|398|13.267|Explore Pallo|0|
+|399|13.300|Explore Pallo|0|
+|400|13.333|Explore Pallo|0|
+|401|13.367|Explore Pallo|0|
+|402|13.400|Explore Pallo|0|
+|403|13.433|Explore Pallo|0|
+|404|13.467|Explore Pallo|0|
+|405|13.500|Explore Pallo|0|
+|406|13.533|Explore Pallo|0|
+|407|13.567|Explore Pallo|0|
+|408|13.600|Explore Pallo|0|
+|409|13.633|Explore Pallo|0|
+|410|13.667|Explore Pallo|0|
+|411|13.700|Explore Pallo|0|
+|412|13.733|Explore Pallo|0|
+|413|13.767|Explore Pallo|0|
+|414|13.800|Explore Pallo|0|
+|415|13.833|Explore Pallo|0|
+|416|13.867|Explore Pallo|0|
+|417|13.900|Explore Pallo|0|
+|418|13.933|Explore Pallo|0|
+|419|13.967|Explore Pallo|0|
+|420|14.000|Explore Pallo|0|
+|421|14.033|Explore Pallo|0|
+|422|14.067|Explore Pallo|0|
+|423|14.100|Explore Pallo|0|
+|424|14.133|Explore Pallo|0|
+|425|14.167|Explore Pallo|0|
+|426|14.200|Explore Pallo|0|
+|427|14.233|Explore Pallo|0|
+|428|14.267|Explore Pallo|0|
+|429|14.300|Explore Pallo|0|
+|430|14.333|Explore Pallo|0|
+|431|14.367|Explore Pallo|0|
+|432|14.400|Explore Pallo|0|
+|433|14.433|Explore Pallo|0|
+|434|14.467|Explore Pallo|0|
+|435|14.500|Explore Pallo|0|
+|436|14.533|Explore Pallo|0|
+|437|14.567|Explore Pallo|0|
+|438|14.600|Explore Pallo|0|
+|439|14.633|Explore Pallo|0|
+|440|14.667|Explore Pallo|0|
+|441|14.700|Explore Pallo|0|
+|442|14.733|Explore Pallo|0|
+|443|14.767|Explore Pallo|0|
+|444|14.800|Explore Pallo|0|
+|445|14.833|Explore Pallo|0|
+|446|14.867|Explore Pallo|0|
+|447|14.900|Explore Pallo|0|
+|448|14.933|Explore Pallo|0|
+|449|14.967|Explore Pallo|0|

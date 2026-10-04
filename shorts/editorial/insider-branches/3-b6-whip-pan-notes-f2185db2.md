@@ -1,0 +1,6 @@
+# B6 whip-pan - Claude vs Gemini (15s, 1080x1920, 30fps, 450 frames, silent)
+Beats: 0-3s "Claude or Gemini?" + brand cards | 3-6.6 Terminal-Bench 4.0 (64/57) | 6.6-10.2 AutomationBench-AA (71/78) | 10.2-12.8 verdict | 12.8-15 Comment "VIDEO" + Argon: limited rollout.
+Whips (9 frames, bezier .85,0,.15,1) centred on frames 90, 198, 306, 384. Each asset has its own parallax factor (1.0-1.9x) so elements streak off/on staggered. Horizontal-only SVG motion blur, stdDev = 0.42 x px/frame velocity, capped 48.
+Between whips: every element bobs/sways, bars fill + counters count up on arrival; 30 clay sphere/donut/blob travellers zoom on/off (scale .35->1.5, fade ends) in the top/bottom/side margins, always several in flight.
+Audit: 450 frames, 0 identical adjacent pairs (min mean diff 0.41/255). Safe-rect check (x48-888,y288-1248, element boxes) outside whip frames: 0 violations. During the 10 whip frames of each swap, text is in transit (blurred) by design. Source rail 48px, benchmark names 56-64px, verdict 104px, CTA 84px, Anton labels.
+Not applied: InsiderForce measured hard cuts / chip springs (P's whip direction for this branch). Sphere/donut assets hue-shifted away from purple. Rendered via headless Chrome + CDP, deterministic seek(frame).

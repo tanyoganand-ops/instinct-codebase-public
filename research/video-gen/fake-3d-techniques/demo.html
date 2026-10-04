@@ -1,0 +1,42 @@
+<!doctype html><meta charset="utf-8"><title>Fake 3D recipe verification</title>
+<style>body{margin:0;background:#f4efec;color:#251f21;font:16px sans-serif}canvas{display:block;margin:20px auto}#status{text-align:center}</style>
+<canvas id="demo" width="1000" height="840"></canvas><div id="status">TESTING</div>
+<script src="techniques.js"></script><script>
+const ctx=document.getElementById('demo').getContext('2d');
+function sprite(){
+ const c=surface(180,190),g=c.getContext('2d');
+ g.fillStyle='#d89978';g.beginPath();g.ellipse(90,105,65,80,0,0,Math.PI*2);g.fill();
+ g.fillStyle='#e3a181';g.beginPath();g.ellipse(60,153,34,34,0,0,Math.PI*2);g.fill();
+ g.beginPath();g.ellipse(121,151,35,33,0,0,Math.PI*2);g.fill();
+ g.fillStyle='#382b32';for(const x of [69,108]){g.beginPath();g.ellipse(x,93,5,7,0,0,Math.PI*2);g.fill()}
+ g.strokeStyle='#603d3b';g.lineWidth=3;g.beginPath();g.arc(90,109,13,0.15,Math.PI-.15);g.stroke();return c;
+}
+const raw=sprite(), field=spriteNormals(raw,{radius:62,height:30}), lit=shadeSprite(field);
+function panel(x,y,label){ctx.fillStyle='white';ctx.fillRect(x,y,300,360);ctx.fillStyle='#251f21';ctx.font='bold 16px sans-serif';ctx.fillText(label,x+18,y+26)}
+panel(20,20,'1. Flat sprite');ctx.drawImage(raw,80,85);
+panel(350,20,'2. Convex sprite relighting');ctx.drawImage(lit,410,85);
+panel(680,20,'3. Seam AO + floor shadows');
+castShadow(ctx,shadowMask(lit),830,332,{height:0,lean:.48,squash:.26});contactShadow(ctx,830,332,50,12,.32);
+const ao=seamAO(lit,[{x:76,y:139,rx:32,ry:9,opacity:.18},{x:113,y:142,rx:27,ry:8,opacity:.16}]);ctx.drawImage(ao,740,145);
+panel(20,420,'4. Depth of field');const back=blurSprite(lit,5),front=blurSprite(lit,0);drawDOFSprite(ctx,back,50,490,.68);drawDOFSprite(ctx,front,128,510,.9);
+panel(350,420,'5. Normal-driven refraction');
+const bg=surface(280,290),b=bg.getContext('2d');b.fillStyle='#a7c8cb';b.fillRect(0,0,280,290);
+for(let i=0;i<14;i++){b.fillStyle=i%2?'#ddaf83':'#719f99';b.fillRect(i*20,0,10,290)}
+b.fillStyle='#f4efec';for(let i=0;i<10;i++) b.fillRect(0,i*30,280,3);
+ctx.drawImage(bg,360,470);const refr=refractPatch(bg,field,50,35,14);ctx.drawImage(refr,410,505);
+panel(680,420,'6. Layered perspective');
+const scene=surface(280,290),s=scene.getContext('2d');s.fillStyle='#b7d2ce';s.fillRect(0,0,280,290);
+drawLayers(s,[{image:lit,x:-55,y:-20,z:900},{image:lit,x:28,y:0,z:100},{image:lit,x:115,y:80,z:-100}],{x:18,y:0},280,290,600);ctx.drawImage(scene,690,470);
+try {
+ const layers=[{x:30,y:0,z:0},{x:30,y:0,z:600}];
+ const p0=projectLayer(layers[0],{x:0,y:0},100,100), p1=projectLayer(layers[1],{x:0,y:0},100,100);
+ if(p0.scale!==1 || p1.scale!==.5) throw Error('Projection ratio');
+ if(blurSigma(600,600)!==0) throw Error('Focus');
+ if(!Array.from(field.normals).every(Number.isFinite)) throw Error('Normal NaN');
+ for(let i=0;i<field.w*field.h;i++){let j=i*3;if(Math.abs(Math.hypot(field.normals[j],field.normals[j+1],field.normals[j+2])-1)>.00001)throw Error('Non-unit normal')}
+ const unchanged=refractPatch(bg,field,50,35,0,[1,1,1]);
+ const rp=pixels(unchanged).data.data,bp=pixels(bg).data.data,fp=field.albedo.data;
+ for(let y=0;y<field.h;y++)for(let x=0;x<field.w;x++){let a=(y*field.w+x)*4;if(fp[a+3]===255){let q=((y+35)*bg.width+x+50)*4;for(let c=0;c<3;c++)if(rp[a+c]!==bp[q+c])throw Error('Zero displacement')}}
+ document.getElementById('status').textContent='PASS: all six recipes rendered; projection, focus, unit normals and zero displacement verified.';
+} catch(e){document.getElementById('status').textContent='FAIL: '+e.stack}
+</script>
