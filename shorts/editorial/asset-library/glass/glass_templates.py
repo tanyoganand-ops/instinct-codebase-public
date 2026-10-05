@@ -1,4 +1,4 @@
-# Liquid-glass overlay templates v2 (Anton baked in, amped motion). 1080x1920, 30fps, PIL + numpy.
+# Liquid-glass overlay templates v3 (soft Apple-style motion; font = Anton until P's pick). 1080x1920, 30fps, PIL + numpy.
 # Usage: python3 glass_templates.py <g1..g6> "TEXT" <out_dir> [font.ttf]   (default font: Anton-Regular.ttf next to this file)
 # Encode: ffmpeg -framerate 30 -i out/f%04d.png -c:v libx264 -pix_fmt yuv420p -crf 18 out.mp4
 # Text formats: g1 "TITLE"; g2 "a|b|c"; g3 "w1 w2 w3"; g4 "TITLE|subtitle"; g5 "87"; g6 "A|B".
@@ -25,7 +25,7 @@ def bg(t):
     img = np.ones((h, w, 3)) * np.array([246, 248, 252.0])
     for li, (sp, r, al, bl) in enumerate(LAYERS):
         for k, (col, ph) in enumerate(bl):
-            a2 = 2 * math.pi * t * sp * 1.6 + ph
+            a2 = 2 * math.pi * t * sp * .8 + ph
             cx = .5 + .42 * math.sin(a2 + k) * (1 + li * .1); cy = .5 + .44 * math.cos(a2 * .8 + k * 1.7)
             a = np.exp(-(((xx - cx) * .56) ** 2 + (yy - cy) ** 2) / (r * r * .18))[..., None] * al
             img = img * (1 - a) + np.array(col) * a
@@ -33,7 +33,7 @@ def bg(t):
     d = Image.new("RGBA", (W, H), (0, 0, 0, 0)); dd = ImageDraw.Draw(d); sp = 60
     for gy in range(0, H // sp + 1):
         for gx in range(0, W // sp + 1):
-            x, y = gx * sp, gy * sp; ph = math.hypot(x - 540, y - 960) / 140 - t * 2 * math.pi * 1.6
+            x, y = gx * sp, gy * sp; ph = math.hypot(x - 540, y - 960) / 140 - t * 2 * math.pi * .6
             r = 3.2 + 2.6 * math.sin(ph); yo = 5 * math.sin(ph)
             dd.ellipse([x - r, y + yo - r, x + r, y + yo + r], fill=(70, 100, 170, 70))
     c.alpha_composite(d); return c
@@ -82,105 +82,80 @@ def shake(c, amp, t):
 def flash(c, a):
     if a > .01: c.alpha_composite(Image.new("RGBA", c.size, (255, 255, 255, int(255 * clamp(a)))))
 
-# ---- G1 glass_card_title: panel slams down from far above with deep overshoot + motion blur, title pops with scale punch.
-def g1(i, N, text, f):
-    def st(t):
-        u = spring(t / .26); out = ease_io((t - .86) / .14)
-        return 900 - (1 - u) * 1100 - out * 160, clamp(t * 12) * (1 - out), u
-    t = i / (N - 1); f = fit(text, f, 760); cy, al, u = st(t); cyp = st((i - 1) / (N - 1))[0]
-    c = bg(t); w = min(960, tw(text, f) + 190)
-    glass(c, (W / 2 - w / 2, cy - 170, W / 2 + w / 2, cy + 170), r=80, al=al)
-    txt(c, text, f, W / 2, cy, al=clamp((t - .1) / .1) * al, sc=1 + .35 * max(0, back((t - .1) / .2, 3.5) - 1) * 0 + .0 + (0.25 * (1 - back((t - .08) / .22, 3.2)) if t > .08 else .25))
-    dblur(c, (W / 2 - w / 2, cy - 170, W / 2 + w / 2, cy + 170), 0, (cy - cyp) * 1.2); return c
+class OD:  # alpha-correct drawing: composites each shape instead of overwriting pixels (fixes white blobs at alpha 0)
+    def __init__(s, c): s.c = c
+    def _do(s, m, *a, **k):
+        o = Image.new("RGBA", s.c.size, (0, 0, 0, 0)); getattr(ImageDraw.Draw(o), m)(*a, **k); s.c.alpha_composite(o)
+    def ellipse(s, *a, **k): s._do("ellipse", *a, **k)
+    def arc(s, *a, **k): s._do("arc", *a, **k)
+    def rounded_rectangle(s, *a, **k): s._do("rounded_rectangle", *a, **k)
 
-# ---- G2 glass_stack: panels whip in from alternating sides with overshoot + blur, accent dot pulses.
+# ---- Motion language (v3, Apple liquid-glass feel): soft decelerating ease, no overshoot, no impact, no shake, no flash.
+# Every element: fade + gentle glide (60-120px) + slight scale 0.94->1, staggered; exits mirror entrances, slightly faster.
+def enter(t, st, dur): return ease_out((t - st) / dur)
+def exit_(t, st=.86, dur=.14): return ease_io((t - st) / dur)
+def glide(t, st, dur, dist=90): e = enter(t, st, dur); return e, (1 - e) * dist
+
+def g1(i, N, text, f):
+    t = i / (N - 1); c = bg(t); f = fit(text, f, 760); e, dy = glide(t, .04, .34, 110); x = exit_(t); al = e * (1 - x)
+    cy = 900 + dy - x * 50; sc = .94 + .06 * e; w = min(960, tw(text, f) + 190) * sc
+    glass(c, (W / 2 - w / 2, cy - 170 * sc, W / 2 + w / 2, cy + 170 * sc), r=80, al=al)
+    txt(c, text, f, W / 2, cy, al=enter(t, .12, .3) * (1 - x), sc=sc); return c
+
 def g2(i, N, text, f):
-    t = i / (N - 1); items = text.split("|"); out = ease_io((t - .9) / .1); c = bg(t); sm = font(None, 130)
+    t = i / (N - 1); c = bg(t); items = text.split("|"); x = exit_(t, .88, .12); sm = font(None, 130)
     for k, s in enumerate(items):
-        def pos(tt):
-            u = spring((tt - .04 - k * .2) / .24); side = -1 if k % 2 == 0 else 1
-            return 540 + side * (1 - u) * 1300 + side * out * 1400
-        tt = t - .04 - k * .2
-        if tt <= 0: continue
-        x = pos(t); dx = x - pos((i - 1) / (N - 1)); cy = 700 + k * 280; al = clamp(tt * 14)
-        glass(c, (x - 430, cy - 115, x + 430, cy + 115), r=60, al=al)
-        pulse = 1 + .35 * math.exp(-tt * 9) * math.cos(tt * 40); r = 26 * pulse
-        ImageDraw.Draw(c).ellipse([x - 340 - r, cy - r, x - 340 + r, cy + r], fill=ACC)
-        txt(c, s.upper(), sm, x + 20, cy, al=al); dblur(c, (x - 430, cy - 115, x + 430, cy + 115), dx * 1.1, 0)
+        e, dy = glide(t, .05 + k * .13, .3, 80)
+        if e <= 0: continue
+        al = e * (1 - x); cy = 700 + k * 280 + dy - x * 40; sc = .95 + .05 * e
+        glass(c, (540 - 430 * sc, cy - 115 * sc, 540 + 430 * sc, cy + 115 * sc), r=60, al=al)
+        OD(c).ellipse([200 - 24, cy - 24, 200 + 24, cy + 24], fill=ACC[:3] + (int(255 * al),))
+        txt(c, s.upper(), sm, 560, cy, al=enter(t, .1 + k * .13, .28) * (1 - x))
     return c
 
-# ---- G3 glass_chips: pills fire in from alternating directions with big overshoot; wrapped rows.
 def g3(i, N, text, f):
-    t = i / (N - 1); c = bg(t); out = ease_io((t - .9) / .1); ws = text.split(); sm = font(None, 112)
-    rows, cur, curw = [], [], 0
+    t = i / (N - 1); c = bg(t); x = exit_(t, .88, .12); ws = text.split(); sm = font(None, 112); rows, cur, curw = [], [], 0
     for w in ws:
         cw = tw(w.upper(), sm) + 120
         if curw + cw > 980 and cur: rows.append(cur); cur, curw = [], 0
         cur.append((w.upper(), cw)); curw += cw + 24
     rows.append(cur); y0 = 900 - (len(rows) - 1) * 110; n = 0
     for ri, row in enumerate(rows):
-        tot = sum(cw for _, cw in row) + 24 * (len(row) - 1); x = W / 2 - tot / 2
+        tot = sum(cw for _, cw in row) + 24 * (len(row) - 1); px = W / 2 - tot / 2
         for w, cw in row:
-            u = (t - .04 - n * .075) / .2; ang = n * 1.9; n += 1
-            if u > 0:
-                s = back(u, 3.2); ox = math.cos(ang) * (1 - spring(u)) * 600; oy = math.sin(ang) * (1 - spring(u)) * 600
-                al = clamp(u * 5) * (1 - out); hh = 78 * s; cx = x + cw / 2 + ox; cy = y0 + ri * 190 + oy
-                glass(c, (cx - cw / 2 * s, cy - hh, cx + cw / 2 * s, cy + hh), r=int(hh), blur=20, al=al)
-                txt(c, w, sm, cx, cy, al=al, sc=s); dblur(c, (cx - cw / 2, cy - hh, cx + cw / 2, cy + hh), -ox * .12, -oy * .12)
-            x += cw + 24
+            e, dy = glide(t, .05 + n * .08, .28, 60); n += 1
+            if e > 0:
+                al = e * (1 - x); sc = .92 + .08 * e; hh = 78 * sc; cx = px + cw / 2; cy = y0 + ri * 190 + dy
+                glass(c, (cx - cw / 2 * sc, cy - hh, cx + cw / 2 * sc, cy + hh), r=int(hh), blur=20, al=al); txt(c, w, sm, cx, cy, al=al, sc=sc)
+            px += cw + 24
     return c
 
-# ---- G4 glass_lower_third: panel whips in from left with overshoot, accent bar shoots up, subtitle types in.
 def g4(i, N, text, f):
-    t = i / (N - 1); c = bg(t); a, b = (text.split("|") + [""])[:2]
-    def px(tt): return -1100 + 1100 * spring(tt / .24) - 1100 * ease_io((tt - .82) / .18)
-    x = px(t); dx = x - px((i - 1) / (N - 1)); big = fit(a, font(None, 170), 640); sm = font(None, 76)
-    glass(c, (x + 50, 1330, x + 1030, 1650), r=64)
-    ImageDraw.Draw(c).rounded_rectangle([x + 95, 1375, x + 111, 1375 + 230 * ease_out((t - .1) / .15)], 8, fill=ACC)
-    txt(c, a, big, x + 140 + tw(a, big) / 2 + 30, 1470); n = int(len(b) * clamp((t - .22) / .25))
-    if n: txt(c, b[:n], sm, x + 140 + tw(b[:n], sm) / 2 + 30, 1575, col=(24, 32, 58, 190))
-    dblur(c, (x + 50, 1330, x + 1030, 1650), dx * 1.2, 0); return c
+    t = i / (N - 1); c = bg(t); a, b = (text.split("|") + [""])[:2]; e = enter(t, .03, .32); x = exit_(t, .84, .16)
+    ox = -420 * (1 - e) - 420 * x; al = e * (1 - x); big = fit(a, font(None, 170), 640); sm = font(None, 76)
+    glass(c, (50 + ox, 1330, 1030 + ox, 1650), r=64, al=al)
+    OD(c).rounded_rectangle([95 + ox, 1375, 111 + ox, 1375 + 230 * enter(t, .12, .3)], 8, fill=ACC[:3] + (int(255 * al),))
+    txt(c, a, big, 140 + ox + tw(a, big) / 2 + 30, 1470, al=enter(t, .12, .3) * (1 - x)); txt(c, b, sm, 140 + ox + tw(b, sm) / 2 + 30, 1575, col=(24, 32, 58, 190), al=enter(t, .22, .3) * (1 - x)); return c
 
-# ---- G5 glass_stat: fast count-up (ease-out), snap tick + flash on landing, panel pulses, ring fills with glow.
 def g5(i, N, text, f):
-    t = i / (N - 1); c = bg(t); out = ease_io((t - .9) / .1); target = int(text); tl = .42
-    ep = ease_out(t / tl); v = int(round(target * ep)); landed = max(0, t - tl)
-    s = back(t / .2, 3.0) * (1 + .09 * math.exp(-landed * 14) * math.cos(landed * 55)); al = clamp(t * 12) * (1 - out)
-    h = 430 * s; glass(c, (W / 2 - h, 900 - h, W / 2 + h, 900 + h), r=130, al=al)
-    d = ImageDraw.Draw(c); r = 340 * s; ext = 360 * ep * target / 100
-    d.ellipse([W / 2 - r, 900 - r, W / 2 + r, 900 + r], outline=(255, 255, 255, int(160 * al)), width=24)
+    t = i / (N - 1); c = bg(t); x = exit_(t, .9, .1); target = int(text); e, dy = glide(t, .03, .3, 70); al = e * (1 - x); sc = .94 + .06 * e
+    ep = ease_out((t - .08) / .62); v = int(round(target * ep)); h = 430 * sc; cy = 900 + dy
+    glass(c, (W / 2 - h, cy - h, W / 2 + h, cy + h), r=130, al=al); d = OD(c); r = 340 * sc; ext = 360 * ep * target / 100
+    d.ellipse([W / 2 - r, cy - r, W / 2 + r, cy + r], outline=(255, 255, 255, int(160 * al)), width=24)
     if ext > 1:
-        glow = Image.new("RGBA", c.size, (0, 0, 0, 0)); ImageDraw.Draw(glow).arc([W / 2 - r, 900 - r, W / 2 + r, 900 + r], -90, -90 + min(ext, 359.9), fill=ACC[:3] + (170,), width=46)
-        c.alpha_composite(glow.filter(ImageFilter.GaussianBlur(18))); d.arc([W / 2 - r, 900 - r, W / 2 + r, 900 + r], -90, -90 + min(ext, 359.9), fill=ACC, width=24)
-    txt(c, str(v), font(None, 420), W / 2, 900, al=al, sc=1 + .1 * math.exp(-landed * 12) * math.cos(landed * 50) if landed else 1)
-    if landed > 0: flash(c, .5 * math.exp(-landed * 22))
-    return shake(c, 18 * math.exp(-landed * 12) if landed else 0, t)
+        glow = Image.new("RGBA", c.size, (0, 0, 0, 0)); ImageDraw.Draw(glow).arc([W / 2 - r, cy - r, W / 2 + r, cy + r], -90, -90 + min(ext, 359.9), fill=ACC[:3] + (int(120 * al),), width=40)
+        c.alpha_composite(glow.filter(ImageFilter.GaussianBlur(16))); d.arc([W / 2 - r, cy - r, W / 2 + r, cy + r], -90, -90 + min(ext, 359.9), fill=ACC[:3] + (int(255 * al),), width=24)
+    txt(c, str(v), font(None, 420), W / 2, cy, al=al); return c
 
-# ---- G6 glass_vs: panels slam together from opposite sides, collide (flash + camera shake), bounce apart, VS badge punches in.
 def g6(i, N, text, f):
-    t = i / (N - 1); out = ease_io((t - .9) / .1); a, b = (text.split("|") + [""])[:2]; sm = font(None, 190); tc = .26
-    def off(tt):  # 0 final, big = far; touches centre gap at tc then bounces out
-        if tt < tc: return 1500 * (1 - ease_io(tt / tc) ** .8) + 150 * 0 - 0
-        k = tt - tc; return -170 * math.exp(-k * 9) * math.cos(k * 30) * 1.0
-    o = off(t); op = off((i - 1) / (N - 1)); al = 1 - out; c = bg(t)
-    ya, yb = 560 + (o if o < 0 else 0) * -1 * 0, 1340
-    ay = 640 - o * .0; 
-    # vertical slam: top panel comes from left, bottom from right, both aimed at the centre line (y=950) then settle to 700 / 1200
-    ty = 700 + min(o, 0) * -.9 + (150 if t < tc else 0) * 0
-    ax = 540 - max(o, 0) * 1.0 + (o if o < 0 else 0) * .3; bx = 540 + max(o, 0) * 1.0 - (o if o < 0 else 0) * .3
-    ay = 760 + (o if o < 0 else 0) * .55; by = 1140 - (o if o < 0 else 0) * .55
-    glass(c, (ax - 450, ay - 150, ax + 450, ay + 150), r=76, al=al); txt(c, a.upper(), sm, ax, ay, al=al)
-    glass(c, (bx - 450, by - 150, bx + 450, by + 150), r=76, al=al); txt(c, b.upper(), sm, bx, by, col=ACC, al=al)
-    d = (o - op)
-    dblur(c, (ax - 450, ay - 150, ax + 450, ay + 150), -d * 1.0, 0); dblur(c, (bx - 450, by - 150, bx + 450, by + 150), d * 1.0, 0)
-    k = t - tc
-    if k > 0:
-        s = back(k / .14, 4.0); r = 120 * s; d2 = ImageDraw.Draw(c)
-        ring = Image.new("RGBA", c.size, (0, 0, 0, 0)); rr = 120 + 700 * ease_out(k / .3)
-        ImageDraw.Draw(ring).ellipse([540 - rr, 950 - rr, 540 + rr, 950 + rr], outline=(255, 255, 255, int(200 * (1 - clamp(k / .3)) * al)), width=10); c.alpha_composite(ring)
-        d2.ellipse([540 - r, 950 - r, 540 + r, 950 + r], fill=(255, 255, 255, int(240 * al)), outline=ACC, width=8); txt(c, "VS", font(None, 120), 540, 950, al=al, sc=max(.05, s))
-        flash(c, .6 * math.exp(-k * 20))
-    return shake(c, 34 * math.exp(-max(0, k) * 10) if k > 0 else 0, t)
+    t = i / (N - 1); c = bg(t); x = exit_(t, .9, .1); a, b = (text.split("|") + [""])[:2]; sm = font(None, 190)
+    e1, d1 = glide(t, .03, .36, 0); e2 = enter(t, .12, .36); e3 = enter(t, .5, .3); sc3 = .85 + .15 * e3
+    for (lab, e, side, ay, col) in ((a, e1, -1, 760, INK), (b, e2, 1, 1140, ACC)):
+        ox = side * 520 * (1 - e) + side * 420 * x; al = e * (1 - x)
+        glass(c, (540 + ox - 450, ay - 150, 540 + ox + 450, ay + 150), r=76, al=al); txt(c, lab.upper(), sm, 540 + ox, ay, col=col, al=al)
+    al = e3 * (1 - x); r = 110 * sc3; d = OD(c)
+    d.ellipse([540 - r, 950 - r, 540 + r, 950 + r], fill=(255, 255, 255, int(235 * al)), outline=ACC[:3] + (int(255 * al),), width=6); txt(c, "VS", font(None, 120), 540, 950, al=al, sc=sc3)
+    return c
 
 T = {"g1": (g1, 75), "g2": (g2, 90), "g3": (g3, 75), "g4": (g4, 75), "g5": (g5, 75), "g6": (g6, 75)}
 if __name__ == "__main__":
